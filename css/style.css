@@ -1,0 +1,27 @@
+.navbar {
+	margin-bottom: 0;
+	border: none;
+	border-radius: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+}
+
+.form-control {
+	width: 30% !important;
+}
+
+.infoClose {
+	cursor: pointer;
+	float: right;
+	font-weight: bold;
+	opacity: .5;
+	-moz-opacity: .5;
+	-webkit-opacity: .5;
+	font-family: "Lucida Console", Arial;
+}
+
+.infoClose:hover {
+	opacity: 1;
+	-moz-opacity: 1;
+	-webkit-opacity: 1;
+}
