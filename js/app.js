@@ -1,4 +1,16 @@
 $(function() {
+	//initialisation des datepickers de Bootstrap
+	$(".datepicker").datepicker({
+	    format: "yyyy-mm-dd",
+	    startDate: "Date.getDate()",
+	    todayBtn: "linked",
+	    clearBtn: true,
+	    language: "fr",
+	    daysOfWeekDisabled: "0,6",
+	    autoclose: true,
+	    todayHighlight: true
+	});
+
 	// handler pour la fermeture des fenetres d'info
 	$(document).on({
 		click: function() {
@@ -18,4 +30,13 @@ $(function() {
 			}
 		}
 	}, ".addDate");
+
+	// handler pour le changement des valeurs des champs hidden dans le formulaire de creation de reunion
+	$(document).on({
+		change: function () {
+			var hiddenInput = $(this).prev();
+			// si = 0 -> 1-0 = 0 ; si = 1 -> 1-1 = 0
+			hiddenInput.val(1 - hiddenInput.val());
+		}
+	}, ".dummyChk");
 });

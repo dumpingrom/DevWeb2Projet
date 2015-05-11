@@ -9,11 +9,14 @@
 			case 'dateFormat':
 				echo '<p class="alert alert-danger">Format de date incorrect <span class="infoClose">x<span></p>';
 				break;
-			case 'error':
-				echo '<p class="alert alert-danger">Erreur lors de l\'envoi des donn&eacute;es <span class="infoClose">x<span></p>';
+			case 'field':
+				echo '<p class="alert alert-danger">Tous les champs sont obligatoires <span class="infoClose">x<span></p>';
 				break;
 			case 'hours':
 				echo '<p class="alert alert-danger">Vous devez proposer au moins un cr&eacute;neau horaire pour la date <span class="infoClose">x<span></p>';
+				break;
+			case 'okay':
+				echo '<p class="alert alert-success">Pas de soucis :) <span class="infoClose">x<span></p>';
 				break;
 			default:
 				# code...
@@ -42,7 +45,7 @@
 			Nouvelle r&eacute;union
 		</div>
 		<div class="panel-body">
-			<form method="get" action="scripts/create_meeting.php">
+			<form method="post" action="scripts/create_meeting.php">
 				<div class="form-group">
 					<label for="name">Nom de la r&eacute;union</label>
 					<input type="text" name="nom" class="form-control" placeholder="Nom de la r&eacute;union">
@@ -54,13 +57,16 @@
 					<fieldset class="proposition bg-info container-fluid">
 						<div class="form-group">
 							<label>Date propos&eacute;e</label>
-							<input type="date" name="date[]" class="form-control">
+							<input name="date[]" class="form-control datepicker">
 						</div>
 						<div class="form-group">
 							<label for="cren">Cr&eacute;neaux propos&eacute;s</label><br>
-							<input type="checkbox" name="tenToNoon[]"> 10h-12h
-							<input type="checkbox" name="twoToFour[]"> 14h-16h
-							<input type="checkbox" name="fourToSix[]"> 16h-18h
+							<input type="hidden" name="tenToNoon[]" value="0">
+							<input class="dummyChk" type="checkbox"> 10h-12h
+							<input type="hidden" name="twoToFour[]" value="0">
+							<input class="dummyChk" type="checkbox"> 14h-16h
+							<input type="hidden" name="fourToSix[]" value="0">
+							<input class="dummyChk" type="checkbox"> 16h-18h
 						</div>
 					</fieldset>
 				</div>

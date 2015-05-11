@@ -10,13 +10,14 @@
 			# initialisation d'une variable de type booleen
 			$isDateCorrect = true;
 			# verification des variables POST
-			if(isset($_GET['nom']) && is_string($_GET['nom']) && isset($_GET['date']) && is_array($_GET['date'])) {
-				# echo "<p>is_array(date) = true</p>";
+			if(!empty($_POST['nom']) && is_string($_POST['nom']) && isset($_POST['date']) && is_array($_POST['date'])) {
+				# initialisation d'une chaine de caracteres contenant la requete pour l'insertion de la reunion a la BDD
+				$reqReunion = "INSERT INTO reunions ('nom') VALUES (".$_POST['nom'].")";
 				#assignation du tableau de valeurs dates a une variable, idem pour les creneaux
-				$dates = $_GET['date'];
-				$tenToNoon = $_GET['tenToNoon'];
-				$twoToFour = $_GET['twoToFour'];
-				$fourToSix = $_GET['fourToSix'];
+				$dates = $_POST['date'];
+				$tenToNoon = $_POST['tenToNoon'];
+				$twoToFour = $_POST['twoToFour'];
+				$fourToSix = $_POST['fourToSix'];
 				echo "<p>".$tenToNoon."</p>";
 				# echo "<p>".implode(', ', $dates)."</p>";
 				#parcours du tableau des dates envoyees
@@ -31,14 +32,18 @@
 					else {
 						# sinon verification et parcours des creneaux coches
 						if($tenToNoon[$key] == 0 && $twoToFour[$key] == 0 && $fourToSix[$key] == 0) {
-							//header('Location: ../index.php?p=admin&a=create&m=hours');
+							# si aucun creneau coche, redirection et affichage d'un message d'erreur
+							header('Location: ../index.php?p=admin&a=create&m=hours');
+						}
+						else {
+							header('Location: ../index.php?p=admin&a=create&m=okay');
 						}
 					}
 				}
 			}
 			else {
 				# si variables POST pas initialisees, redirection et affichage d'un message d'erreur
-				header('Location: ../index.php?p=admin&a=create&m=error');
+				header('Location: ../index.php?p=admin&a=create&m=field');
 			}
 		}
 		else { //non connecte
