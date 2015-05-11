@@ -17,7 +17,7 @@
 	}
 	else {
 		$login = $_POST['login'];
-		$pwd = $_POST['pwd'];
+		$pwd = md5($_POST['pwd']);
 		try {
 			$cnx = new PDO(DSN, LOGIN, PASSWORD, $options);
 			$req_login = "SELECT * FROM users WHERE login = '".$login."' AND pwd = '".$pwd."'";

@@ -3,8 +3,8 @@
 define('DSN', 'mysql:host=localhost;port=3306;dbname=planif_meeting');
 
 //id + pwd user
-define('LOGIN', 'root');
-define('PASSWORD', '');
+define('LOGIN', 'videodesk');
+define('PASSWORD', 'videodesk');
 
 //options pilote
 $options = array(	PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

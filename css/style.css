@@ -25,3 +25,18 @@
 	-moz-opacity: 1;
 	-webkit-opacity: 1;
 }
+
+.addDate {
+
+}
+
+.proposition {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	padding: 10px !important;
+	margin: 5px 0;
+}
+
+.btn {
+	font-weight: bold !important;
+}
