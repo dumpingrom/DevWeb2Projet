@@ -32,6 +32,7 @@
 				foreach ($res as $ligne) {
 					$_SESSION['nom'] = $ligne['nom'];
 					$_SESSION['prenom'] = $ligne['prenom'];
+					$_SESSION['uid'] = $ligne['id'];
 					//break de securite, une seule ligne devrait etre retournee
 					break;
 				}
