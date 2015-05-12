@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php">Accueil</a>
+      <span class="navbar-brand" style="vertical-align: middle;">VOT&amp;<br><span class="orange">MEET</span></span>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

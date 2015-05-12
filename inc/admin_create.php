@@ -16,7 +16,7 @@
 				echo '<p class="alert alert-danger">Vous devez proposer au moins un cr&eacute;neau horaire pour la date <span class="infoClose">x<span></p>';
 				break;
 			case 'okay':
-				echo '<p class="alert alert-success">Pas de soucis :) <span class="infoClose">x<span></p>';
+				echo '<p class="alert alert-success">La r&eacute;union a bien &eacute;t&eacute; enregistr&eacute;e <span class="infoClose">x<span></p>';
 				break;
 			default:
 				# code...

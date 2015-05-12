@@ -40,3 +40,18 @@
 .btn {
 	font-weight: bold !important;
 }
+
+h1 small {
+	font-size: 50% !important;
+}
+
+.navbar-brand {
+	padding: 11px 10px !important;
+	line-height: 15px !important;
+	color: #fff !important;
+	font-family: Courier;
+}
+
+.orange {
+	color: orange;
+}
