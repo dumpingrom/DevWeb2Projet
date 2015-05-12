@@ -23,7 +23,18 @@ $(function() {
 		click: function() {
 			var propContainer = $("#propContainer");
 			if(propContainer.children().length < 4) {
-				$('#propContainer fieldset').first().clone().appendTo(propContainer);
+				var clone = $('#propContainer fieldset').first().clone();
+				clone.appendTo(propContainer);
+				clone.find(".datepicker").datepicker({
+				    format: "yyyy-mm-dd",
+				    startDate: "Date.getDate()",
+				    todayBtn: "linked",
+				    clearBtn: true,
+				    language: "fr",
+				    daysOfWeekDisabled: "0,6",
+				    autoclose: true,
+				    todayHighlight: true
+				});
 			}
 			else {
 				$("#errorModal").modal('show');
