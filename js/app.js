@@ -22,7 +22,8 @@ $(function() {
 	$(document).on({
 		click: function() {
 			var propContainer = $("#propContainer");
-			if(propContainer.children().length < 4) {
+			var maxProp = 4;
+			if(propContainer.children().length < maxProp) {
 				var clone = $('#propContainer fieldset').first().clone();
 				clone.appendTo(propContainer);
 				clone.find(".datepicker").datepicker({
@@ -37,6 +38,7 @@ $(function() {
 				});
 			}
 			else {
+				$("#errorModal .modal-dialog .modal-content .modal-body").text("Vous ne pouvez faire que "+maxProp+" propositions pour une réunion");
 				$("#errorModal").modal('show');
 			}
 		}
@@ -50,4 +52,19 @@ $(function() {
 			hiddenInput.val(1 - hiddenInput.val());
 		}
 	}, ".dummyChk");
+
+	// handler pour la suppression des champs additionnels de proposition de date (admin_create)
+	$(document).on({
+		click: function() {
+			if($(".proposition").length > 1) {
+				$(this).closest(".proposition").fadeOut(150, function() {
+					$(this).closest(".proposition").remove();
+				});
+			}
+			else {
+				$("#errorModal .modal-dialog .modal-content .modal-body").text("Vous devez faire au moins une proposition pour cette réunion");
+				$("#errorModal").modal('show');
+			}
+		}
+	}, ".propClose");
 });

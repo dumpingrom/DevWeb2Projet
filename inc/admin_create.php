@@ -40,9 +40,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel panel-primary">
+	<div class="panel panel-success">
 		<div class="panel-heading">
-			Nouvelle r&eacute;union
+			Nouvelle r&eacute;union, U = <?php echo time(); ?>
 		</div>
 		<div class="panel-body">
 			<form method="post" action="scripts/create_meeting.php">
@@ -51,10 +51,11 @@
 					<input type="text" name="nom" class="form-control" placeholder="Nom de la r&eacute;union">
 				</div>
 				<button type="button" class="addDate btn btn-default">
-					<strong>+ Ajouter date</strong>
+					+ Ajouter date
 				</button>
 				<div id="propContainer">
-					<fieldset class="proposition bg-info container-fluid">
+					<fieldset class="proposition container-fluid">
+						<span class="propClose">x</span>
 						<div class="form-group">
 							<label>Date propos&eacute;e</label>
 							<input name="date[]" class="form-control datepicker">

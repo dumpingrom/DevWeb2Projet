@@ -1,5 +1,8 @@
+body {
+	padding-top: 62px;
+}
+
 .navbar {
-	margin-bottom: 0;
 	border: none;
 	border-radius: 0;
 	-moz-border-radius: 0;
@@ -10,7 +13,7 @@
 	width: 30% !important;
 }
 
-.infoClose {
+.infoClose, .propClose {
 	cursor: pointer;
 	float: right;
 	font-weight: bold;
@@ -20,7 +23,7 @@
 	font-family: "Lucida Console", Arial;
 }
 
-.infoClose:hover {
+.infoClose:hover, .propClose:hover {
 	opacity: 1;
 	-moz-opacity: 1;
 	-webkit-opacity: 1;
@@ -35,10 +38,14 @@
 	padding-right: 0 !important;
 	padding: 10px !important;
 	margin: 5px 0;
+	border: 1px solid #393A35;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 .btn {
-	font-weight: bold !important;
+	font-size: 12px !important;
 }
 
 h1 small {
@@ -46,7 +53,7 @@ h1 small {
 }
 
 .navbar-brand {
-	padding: 11px 10px !important;
+	padding: 15px 10px !important;
 	line-height: 15px !important;
 	color: #fff !important;
 	font-family: Courier;

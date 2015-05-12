@@ -13,6 +13,7 @@
 	<meta charset="UTF-8">
 	<title>Planif de r&eacute;unions</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bs-theme.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
 </head>

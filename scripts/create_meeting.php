@@ -19,7 +19,7 @@
 				# verification des variables POST
 				if(!empty($_POST['nom']) && is_string($_POST['nom']) && isset($_POST['date']) && is_array($_POST['date'])) {
 					# preparation de la requete pour l'insertion de la reunion a la BDD
-					$reqReunion = $bdd->prepare("INSERT INTO reunions (nom, idCreateur) VALUES (?, ?)");
+					$reqReunion = $bdd->prepare("INSERT INTO reunions (nom, idCreateur, dateCreation) VALUES (?, ?, CURRENT_TIMESTAMP)");
 					# idem pour la requete d'insertion des propositions
 					$reqProp = $bdd->prepare("INSERT INTO propositions (dateProp, idReunion, idCreneau) VALUES(?, ?, ?)");
 					#assignation du tableau de valeurs dates a une variable, idem pour les creneaux
@@ -27,7 +27,7 @@
 					$tenToNoon = $_POST['tenToNoon'];
 					$twoToFour = $_POST['twoToFour'];
 					$fourToSix = $_POST['fourToSix'];
-					# echo "<p>".implode(', ', $dates)."</p>";
+
 					#parcours du tableau des dates envoyees
 					foreach ($dates as $key => $date) {
 						# verification du format de la date
@@ -47,6 +47,8 @@
 								if($isMeetingCreated == false) {
 									# reunion creee, assignation de la valeur vrai au booleen correspondant
 									$isMeetingCreated = true;
+									#creation d'un timestamp
+									$ts = time();
 									# execution de la requete d'insertion de reunion
 									$reqReunion->execute(array($_POST['nom'], $_SESSION['uid']));
 

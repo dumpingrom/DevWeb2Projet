@@ -19,10 +19,14 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 		if(count($reu) > 0) {
 			foreach ($reu as $r) {
 				$nomReunion = $r['nom'];
+
 				$reqCreateur = $bdd->prepare("SELECT * FROM users WHERE id=?");
 				$reqCreateur->execute(array($r['idCreateur']));
 				$createur = $reqCreateur->fetch();
-				$nomCreateur = "Cr&eacute;&eacute;e par ".$createur['prenom']." ".$createur['nom'];
+				$nomCreateur = "Cr&eacute;&eacute;e par <span class='text-info'>".$createur['prenom']." ".$createur['nom']."</span>";
+				
+				$date = new DateTime($reu[0]['dateCreation']);
+				$dateCreation = "le ".$date->format("d/m/Y")." &agrave; ".$date->format("H\hi");
 			}
 		}
 		else {
@@ -40,7 +44,7 @@ else {
 
 <div class="container">
 	<div class="page-header">
-		<h1><?php echo $nomReunion; ?> <small><?php echo $nomCreateur; ?></small></h1>
+		<h1><?php echo $nomReunion; ?> <small><?php echo $nomCreateur." ".$dateCreation; ?></small></h1>
 	</div>
 <?php echo $warning ?>
 </div>
