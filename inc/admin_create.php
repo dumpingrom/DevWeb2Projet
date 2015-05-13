@@ -42,13 +42,13 @@
 	</div>
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			Nouvelle r&eacute;union, U = <?php echo time(); ?>
+			Nouvelle r&eacute;union
 		</div>
 		<div class="panel-body">
 			<form method="post" action="scripts/create_meeting.php">
 				<div class="form-group">
 					<label for="name">Nom de la r&eacute;union</label>
-					<input type="text" name="nom" class="form-control" placeholder="Nom de la r&eacute;union">
+					<input type="text" name="nom" class="form-control" placeholder="Nom de la r&eacute;union" required>
 				</div>
 				<button type="button" class="addDate btn btn-default">
 					+ Ajouter date
@@ -58,7 +58,7 @@
 						<span class="propClose">x</span>
 						<div class="form-group">
 							<label>Date propos&eacute;e</label>
-							<input name="date[]" class="form-control datepicker">
+							<input name="date[]" class="form-control datepicker" required>
 						</div>
 						<div class="form-group">
 							<label for="cren">Cr&eacute;neaux propos&eacute;s</label><br>

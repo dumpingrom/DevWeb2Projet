@@ -62,3 +62,22 @@ h1 small {
 .orange {
 	color: orange;
 }
+
+td {
+	text-align: center;
+}
+
+#row-mois {
+	text-transform: uppercase;
+}
+
+#row-mois td span, #row-annees td span {
+	/*display: inline-block;*/
+}
+
+#row-mois td[colspan="1"] span, #row-annees td[colspan="1"] span {
+	-webkit-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-o-transform: rotate(270deg);
+	writing-mode: lr-bt ;
+}

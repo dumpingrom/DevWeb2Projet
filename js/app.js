@@ -22,7 +22,7 @@ $(function() {
 	$(document).on({
 		click: function() {
 			var propContainer = $("#propContainer");
-			var maxProp = 4;
+			var maxProp = 10;
 			if(propContainer.children().length < maxProp) {
 				var clone = $('#propContainer fieldset').first().clone();
 				clone.appendTo(propContainer);
