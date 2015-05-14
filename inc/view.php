@@ -44,17 +44,18 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 				$rowMois = array();
 				$rowJours = array();
 				$rowCreneaux = array();
-				$derniereProp = end(array_keys($prop));
+				$derniereProp = end($prop);
+				reset($prop);
 				$colspanMois = 0;
 				$colspanAnnee = 0;
 				$i = 0;
+					$anneeEnCours = $dateBase->format('Y');
+					$moisEnCours = $dateBase->format('F');
 
 				#construction lignes de tableau en fonction des resultats ramenes par la requete $reqProp
 				foreach ($prop as $p) {
 					#dtwd
 					# $propositionsInline .= $p['dateProp']."<br>".$p['heureDebut']." -> ".$p['heureFin']."<br><br>";
-					$anneeEnCours = $dateBase->format('Y');
-					$moisEnCours = $dateBase->format('F');
 					
 					# assignation de la date de la proposition à un nouvel objet
 					$dateProp = new DateTime($p['dateProp']);
@@ -65,8 +66,8 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 					
 					
 
-					if($anneeProp != $anneeEnCours || $i == $derniereProp) {
-						($i == 0) ? $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeProp." :: ".$i.'</span></td>' : $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeEnCours." :: ".$i.'</span></td>';
+					if($anneeProp != $anneeEnCours || $p == $derniereProp) {
+						($i == 0 || $p == $derniereProp) ? $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeProp.'</span></td>' : $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeEnCours.'</span></td>';
 
 						$colspanAnnee = 0;
 						$anneeEnCours = $anneeProp;
@@ -75,14 +76,12 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 						$anneeEnCours = $anneeProp;
 					}
 
-					if($moisProp != $moisEnCours || $i == $derniereProp) {
-						echo $moisEnCours." -> ";
-						echo $moisProp."<br>";
-						if($i == 0 || $i == $derniereProp) {
-							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp." :: ".$i.'</span></td>';
+					if($moisProp != $moisEnCours || $p == $derniereProp) {
+						if($i == 0) {
+							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp.'</span></td>';
 						}
 						else {
-							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours." :: ".$i.'</span></td>';
+							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours.'</span></td>';
 						}
 						#($i == 0) ? $rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp.'</span></td>' : $rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours.'</span></td>';
 
@@ -95,7 +94,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 					}
 
 					if($dateBase->getTimestamp() != $dateProp->getTimestamp() || $i == 0) {
-						$rowJours[] = '<td class="jour"><span>'.$jourProp." :: ".$i.'</span></td>';
+						$rowJours[] = '<td class="jour"><span>'.$jourProp.'</span></td>';
 						$jourEnCours = $jourProp;
 						$colspanMois += 1;
 						$colspanAnnee += 1;
@@ -149,7 +148,6 @@ else {
 					foreach ($rowAnnees as $a) {
 						echo $a;
 					}
-					echo $rowAnnees[$derniereProp];
 				?>
 			</tr>
 			<tr id="row-mois">
