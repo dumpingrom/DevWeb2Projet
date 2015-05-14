@@ -30,7 +30,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 				$date = new DateTime($r['dateCreation']);
 				$dateCreation = "le ".$date->format("d/m/Y")." &agrave; ".$date->format("H\hi");
 
-				$reqProp = $bdd->prepare("SELECT * FROM propositions INNER JOIN creneaux ON creneaux.id=propositions.idCreneau WHERE idReunion=? ORDER BY dateProp");
+				$reqProp = $bdd->prepare("SELECT DISTINCT * FROM propositions INNER JOIN creneaux ON creneaux.id=propositions.idCreneau WHERE idReunion=? ORDER BY dateProp ASC, idCreneau");
 				$reqProp->execute(array($r['id']));
 				$prop = $reqProp->fetchAll();
 				#dtwd
@@ -43,7 +43,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 				$rowAnnees = array();
 				$rowMois = array();
 				$rowJours = array();
-				$rowCreneaux = array();
+				$rowCreneaux = "";
 				$derniereProp = end($prop);
 				reset($prop);
 				$colspanMois = 0;
@@ -53,10 +53,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 					$moisEnCours = $dateBase->format('F');
 
 				#construction lignes de tableau en fonction des resultats ramenes par la requete $reqProp
-				foreach ($prop as $p) {
-					#dtwd
-					# $propositionsInline .= $p['dateProp']."<br>".$p['heureDebut']." -> ".$p['heureFin']."<br><br>";
-					
+				foreach ($prop as $p) {					
 					# assignation de la date de la proposition à un nouvel objet
 					$dateProp = new DateTime($p['dateProp']);
 					# recuperation des infos de la date (annee mois et jour)
@@ -88,8 +85,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 						$colspanMois = 0;
 						$moisEnCours = $moisProp;
 					}
-					else {
-						
+					else {			
 						$moisEnCours = $moisProp;
 					}
 
@@ -98,10 +94,22 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 						$jourEnCours = $jourProp;
 						$colspanMois += 1;
 						$colspanAnnee += 1;
+
+						# mise a jour ligne creneaux
+						if($i != 0) {
+							$rowCreneaux .= '</td>';
+						}
+						$rowCreneaux .= '<td class="creneaux">';
+
 					}
 					else {
-						#afficher creneau
+
 					}
+
+					# affichage creneaux
+					$heureDebut = new DateTime($p['heureDebut']);
+					$heureFin = new DateTime($p['heureFin']);
+					$rowCreneaux .= '<span class="spanCren"><input type="checkbox"><br>'.$heureDebut->format('H').'h-'.$heureFin->format('H').'h</span>';
 					/* echo 'moisEnCours => '.$moisEnCours."<br>";
 					echo 'moisProp => '.$moisProp.'<br>';
 					echo 'anneeEnCours => '.$anneeEnCours.'<br>';
@@ -143,26 +151,29 @@ else {
 			<?php # echo $propositionsInline; ?>
 		</p>-->
 		<table class="table table-bordered">
-			<tr id="row-annees">
+			<tr id="row-annees" class="active">
 				<?php 
 					foreach ($rowAnnees as $a) {
 						echo $a;
 					}
 				?>
 			</tr>
-			<tr id="row-mois">
+			<tr id="row-mois" class="info">
 				<?php 
 					foreach ($rowMois as $m) {
 						echo $m;
 					}
 				?>
 			</tr>
-			<tr id="row-jours">
+			<tr id="row-jours" class="warning">
 				<?php 
 					foreach ($rowJours as $j) {
 						echo $j;
 					}
 				?>
+			</tr>
+			<tr id="row-cren" class="danger">
+				<?php echo $rowCreneaux; ?>
 			</tr>
 		</table>
 	</div>
