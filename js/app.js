@@ -53,11 +53,15 @@ $(function() {
 		}
 	}, ".dummyChk");
 
-	// handler pour la suppression des champs additionnels de proposition de date (admin_create)
+	// handler pour la suppression des champs additionnels de proposition de date (admin_create) avec animation
 	$(document).on({
 		click: function() {
 			if($(".proposition").length > 1) {
-				$(this).closest(".proposition").fadeOut(150, function() {
+				$(this).closest(".proposition").animate({
+					right: 400,
+					height: 'toggle',
+					opacity: 0
+				}, 400, function() {
 					$(this).closest(".proposition").remove();
 				});
 			}
