@@ -1,10 +1,19 @@
 <?php
 
 require 'scripts/base.php';
+setlocale(LC_ALL, 'fr_FR', 'fr', 'fr_FR@euro');
 
 $warning = "";
-$nomReunion = "R&eacute;union";
 $nomCreateur = "";
+$nomReunion = "";
+$dateCreation = "";
+$instructions = "Veuillez v&eacute;rifier l'URL dans la barre d'adresse de votre navigateur. L'URL devrait &ecirc;tre de la forme <code>www.votemeet.com/?p=view&id=98</code>";
+$formNom = "";
+
+$rowAnnees = array();
+$rowMois = array();
+$rowJours = array();
+$rowCreneaux = "";
 
 if(isset($_GET['id']) && is_string($_GET['id'])) {
 	try {	
@@ -20,7 +29,16 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 		if(count($reu) > 0) {
 
 			foreach ($reu as $r) {
+				#mise a jour du nom de la reunion pour l'affichage du titre
 				$nomReunion = $r['nom'];
+				#mise a jour du texte d'instruction
+				$instructions = "Veuillez cocher vos disponibilit&eacute;s, pour les dates et horaires propos&eacute;s, indiquer votre nom et valider pour envoyer votre vote.";
+				#mise a jour de la partie formulaire pour le nom du votant
+				$formNom = '<div class="form-group">
+								<label>Votre nom</label>
+								<input type="text" name="nomVotant" class="form-control" required><br>
+							</div>
+							<button class="btn btn-success" type="submit">Valider</button>';
 
 				$reqCreateur = $bdd->prepare("SELECT * FROM users WHERE id=?");
 				$reqCreateur->execute(array($r['idCreateur']));
@@ -39,18 +57,15 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 				#recuperation de la premiere date pour initialisation de l'element <table>
 				$dateBase = new DateTime($prop[0]['dateProp']);
 				
-				$jourEnCours = "";
-				$rowAnnees = array();
-				$rowMois = array();
-				$rowJours = array();
-				$rowCreneaux = "";
 				$derniereProp = end($prop);
 				reset($prop);
 				$colspanMois = 0;
 				$colspanAnnee = 0;
+				$colspanJour = 0;
 				$i = 0;
-					$anneeEnCours = $dateBase->format('Y');
-					$moisEnCours = $dateBase->format('F');
+				$anneeEnCours = $dateBase->format('Y');
+				$moisEnCours = strftime("%b", $dateBase->getTimestamp());
+				$jourEnCours = strftime("%a %d", $dateBase->getTimestamp());
 
 				#construction lignes de tableau en fonction des resultats ramenes par la requete $reqProp
 				foreach ($prop as $p) {					
@@ -58,13 +73,12 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 					$dateProp = new DateTime($p['dateProp']);
 					# recuperation des infos de la date (annee mois et jour)
 					$anneeProp = $dateProp->format('Y');
-					$moisProp = $dateProp->format('F');
-					$jourProp = $dateProp->format('d');
-					
+					$moisProp = strftime("%b", $dateProp->getTimestamp());
+					$jourProp = strftime("%a %d", $dateProp->getTimestamp());
 					
 
-					if($anneeProp != $anneeEnCours || $p == $derniereProp) {
-						($i == 0 || $p == $derniereProp) ? $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeProp.'</span></td>' : $rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeEnCours.'</span></td>';
+					if($anneeProp != $anneeEnCours) {
+						$rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeEnCours.'</span></td>';
 
 						$colspanAnnee = 0;
 						$anneeEnCours = $anneeProp;
@@ -73,13 +87,15 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 						$anneeEnCours = $anneeProp;
 					}
 
-					if($moisProp != $moisEnCours || $p == $derniereProp) {
-						if($i == 0) {
+					if($moisProp != $moisEnCours) {
+						$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours.'</span></td>';
+
+						/*if($i == 0) {
 							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp.'</span></td>';
 						}
 						else {
 							$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours.'</span></td>';
-						}
+						}*/
 						#($i == 0) ? $rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp.'</span></td>' : $rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisEnCours.'</span></td>';
 
 						$colspanMois = 0;
@@ -89,34 +105,40 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 						$moisEnCours = $moisProp;
 					}
 
-					if($dateBase->getTimestamp() != $dateProp->getTimestamp() || $i == 0) {
-						$rowJours[] = '<td class="jour"><span>'.$jourProp.'</span></td>';
+					if($jourEnCours != $jourProp) {
+						$rowJours[] = '<td class="jour" colspan="'.$colspanJour.'"><span>'.$jourEnCours.'</span></td>';
+						$colspanJour = 0;
 						$jourEnCours = $jourProp;
-						$colspanMois += 1;
-						$colspanAnnee += 1;
-
-						# mise a jour ligne creneaux
-						if($i != 0) {
-							$rowCreneaux .= '</td>';
-						}
-						$rowCreneaux .= '<td class="creneaux">';
-
 					}
 					else {
-
+						$jourEnCours = $jourProp;
 					}
 
 					# affichage creneaux
+					if($i != 0) {
+						$rowCreneaux .= '</td>';
+					}
+					$rowCreneaux .= '<td class="creneaux">';
 					$heureDebut = new DateTime($p['heureDebut']);
 					$heureFin = new DateTime($p['heureFin']);
-					$rowCreneaux .= '<span class="spanCren"><input type="checkbox"><br>'.$heureDebut->format('H').'h-'.$heureFin->format('H').'h</span>';
-					/* echo 'moisEnCours => '.$moisEnCours."<br>";
-					echo 'moisProp => '.$moisProp.'<br>';
-					echo 'anneeEnCours => '.$anneeEnCours.'<br>';
-					echo 'anneeProp => '.$anneeProp.'<br>';
-					echo 'colspanAnnee => '.$colspanAnnee."<br>";
-					echo 'colspanMois => '.$colspanMois."<br>";
-					echo "<hr>";*/
+					$rowCreneaux .= '<span class="spanCren">
+					<input type="hidden" value="'.$p['idProp'].'" name="idProp[]">
+					<input type="hidden" value="0" name="voteCreneau[]">
+					<input type="checkbox" class="dummyChk"><br>'.$heureDebut->format('H').'h-'.$heureFin->format('H').'h
+					</span>';
+					#incr. colspan
+					$colspanMois += 1;
+					$colspanAnnee += 1;
+					$colspanJour += 1;
+
+					if($p == $derniereProp) {
+						$rowAnnees[] = '<td colspan="'.$colspanAnnee.'"><span>'.$anneeProp.'</span></td>';
+						$rowMois[] = '<td colspan="'.$colspanMois.'"><span>'.$moisProp.'</span></td>';
+						$rowJours[] = '<td class="jour" colspan="'.$colspanJour.'"><span>'.$jourProp.'</span></td>';
+
+					}
+
+					#incr. index et maj date en cours
 					$i+=1;
 					$dateBase = $dateProp;
 				}
@@ -145,12 +167,18 @@ else {
 	<div class="page-header">
 		<h1><?php echo $nomReunion; ?> <small><?php echo $nomCreateur." ".$dateCreation; ?></small></h1>
 	</div>
-<?php echo $warning ?>
+		<?php echo $warning ?>
 	<div>
+	<div>
+		<span>
+			<?php echo $instructions; ?>
+		</span>
+	</div>
 		<!--<p>
 			<?php # echo $propositionsInline; ?>
 		</p>-->
-		<table class="table table-bordered">
+		<form method="post" action="scripts/vote.php" name="formVote" id="formVote">
+		<table class="table table-bordered" id="tableProp">
 			<tr id="row-annees" class="active">
 				<?php 
 					foreach ($rowAnnees as $a) {
@@ -176,5 +204,7 @@ else {
 				<?php echo $rowCreneaux; ?>
 			</tr>
 		</table>
+		<?php echo $formNom; ?>
+		</form>
 	</div>
 </div>

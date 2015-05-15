@@ -64,7 +64,7 @@ h1 small {
 	color: orange;
 }
 
-td {
+#tableProp td {
 	text-align: center;
 }
 
@@ -123,4 +123,8 @@ td {
     .collapse.in{
         display:block !important;
     }
+}
+
+.linksInput input {
+	min-width: 350px;
 }

@@ -6,7 +6,10 @@
 			$m = $_GET['m'];
 			switch ($m) {
 				case 'logout':
-					echo '<p class="alert alert-success">Deconnexion r&eacute;ussie <span class="infoClose">x<span></p>';
+					echo '<p class="alert alert-success">Vous avez &eacute;t&eacute; d&eacute;connect&eacute; <span class="infoClose">x<span></p>';
+					break;
+				case 'vote':
+					echo '<p class="alert alert-success">Votre vote a bien &eacute;t&eacute; pris en compte, merci ! <span class="infoClose">x<span></p>';
 					break;
 				
 				default:

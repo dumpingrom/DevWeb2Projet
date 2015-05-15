@@ -44,7 +44,7 @@ $(function() {
 		}
 	}, ".addDate");
 
-	// handler pour le changement des valeurs des champs hidden dans le formulaire de creation de reunion
+	// handler pour le changement des valeurs des champs hidden dans les formulaire comportant des checkboxes
 	$(document).on({
 		change: function () {
 			var hiddenInput = $(this).prev();
@@ -71,4 +71,11 @@ $(function() {
 			}
 		}
 	}, ".propClose");
+
+	//handler pour la selection de la totalite du champ texte contenant l'URL a partager
+	$(document).on({
+		focusin: function () {
+			$(this).select();
+		}
+	}, ".url-share");
 });

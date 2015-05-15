@@ -74,5 +74,8 @@
 				<button type="submit" class="btn btn-success">Valider</button>
 			</form>
 		</div>
+		<div class="panel-footer">
+			<div><small>Note: Tous les champs doivent &ecirc;tre remplis</small></div>
+		</div>
 	</div>
 </div>
