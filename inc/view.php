@@ -51,8 +51,6 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 				$reqProp = $bdd->prepare("SELECT DISTINCT * FROM propositions INNER JOIN creneaux ON creneaux.id=propositions.idCreneau WHERE idReunion=? ORDER BY dateProp ASC, idCreneau");
 				$reqProp->execute(array($r['id']));
 				$prop = $reqProp->fetchAll();
-				#dtwd
-				$propositionsInline = "";
 
 				#recuperation de la premiere date pour initialisation de l'element <table>
 				$dateBase = new DateTime($prop[0]['dateProp']);

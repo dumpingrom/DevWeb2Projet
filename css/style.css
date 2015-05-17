@@ -128,3 +128,17 @@ h1 small {
 .linksInput input {
 	min-width: 350px;
 }
+
+.emptyTd {
+	visibility: hidden;
+}
+
+.winner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	background-image: url(img/star.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}

@@ -14,7 +14,7 @@
 	if(count($resConsult) > 0) {
 		foreach ($resConsult as $reu) {
 			$content .= '<tr>';
-			$content .= '<td class="linksName"><span>'.$reu['nom'].'</span></td>';
+			$content .= '<td class="linksName"><span>'.$reu['nom'].'</span> <a href="?p=admin&a=results&id='.$reu['id'].'">Voir</a></td>';
 			$content .= '<td class="linksInput"><input type="text" class="url-share" value="localhost/devweb2projet/?p=view&id='.$reu['id'].'" readonly></	td>'; 
 			$content .= '</tr>';
 		}
