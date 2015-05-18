@@ -4,6 +4,7 @@ setlocale(LC_ALL, 'fr_FR', 'fr', 'fr_FR@euro');
 
 $nomReu = "";
 $info = "";
+$scriptTable = "";
 
 if(isset($_GET['id']) && is_string($_GET['id'])) {
 	try {
@@ -36,6 +37,12 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 
 
 		if(count($votes) > 0) {
+			# script JS permettant de rendre le tableau visible
+			$scriptTable = '
+				<script type="text/javascript">
+					document.getElementById("tableResults").style.visibility = "visible";
+				</script>
+			';
 			$i = 0;
 			foreach ($votes as $v) {
 				$idVotantCurr = $v['idVotant'];
@@ -159,7 +166,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 	}
 }
 	} catch (Exception $e) {
-		echo "Error: ".$e.getMessage();
+		echo "Error: ".$e->getMessage();
 	}
 }
 
@@ -175,7 +182,7 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 	<p>
 
 	</p>
-	<table class="table table-bordered" id="tableProp">
+	<table class="table table-bordered" id="tableResults" style="visibility:hidden;">
 	<tr id="row-annees"><td class="emptyTd"></td>
 		<?php 
 			foreach ($rowAnnees as $a) {
@@ -237,3 +244,4 @@ if(isset($_GET['id']) && is_string($_GET['id'])) {
 
 	console.log(arr);
 </script>
+<?php echo $scriptTable; ?>

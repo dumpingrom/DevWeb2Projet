@@ -50,7 +50,7 @@
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="index.php?p=logout">Deconnexion</a></li>
                       <li><a href="index.php?p=admin&a=create">Cr&eacute;er r&eacute;union</a></li>
-                      <li><a href="index.php?p=admin&a=links">Mes liens</a></li>
+                      <li><a href="index.php?p=admin&a=links">Mes r&eacute;unions</a></li>
                     </ul>
                   </li>
             ';
